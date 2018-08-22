@@ -1,6 +1,8 @@
 package com.cn.majj;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,17 +42,27 @@ public class Login extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8"); 
-		  response.setContentType("text/html;charset=utf-8"); 
+		response.setContentType("text/html;charset=utf-8"); 
 		String name = request.getParameter("username");
 		String password = request.getParameter("password");
-		if (name.equals("mjj")  && password.equals("123")) {
-			response.getWriter().write("µÇÂ¼³É¹¦");
-			
-		} else {
+		DbUtil dt=new DbUtil();
+		boolean b=false;
+		try {
+			b = dt.getUserByName(name, password);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(b){
+			response.getWriter().write("µÇÂ¼³É¹¦");}
+		else{
 			response.getWriter().write("µÇÂ¼Ê§°Ü");
+		}
+			
+			
 			
 		}
 
 	}
 
-}
+
