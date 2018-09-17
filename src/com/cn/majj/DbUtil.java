@@ -44,24 +44,23 @@ public class DbUtil {
 
 	public static boolean getUserByName(String userName, String password) throws ClassNotFoundException, SQLException {
 		// TODO Auto-generated method stub
-		User user = new User();
-		Connection con = getConnection();
-		// 创建Statament对象
-		Statement st = con.createStatement();
+		User user = new User(); //实例化对象
+		Connection con = getConnection();//创建数据库连接
+		Statement st = con.createStatement();// 创建Statament对象
 		String s = "select user_name,password from tbl_user where user_name=? and password=?";
-		PreparedStatement pst = con.prepareStatement(s);
-		pst.setString(1, userName);
-		pst.setString(2, password);
-		ResultSet rst = pst.executeQuery();
+		PreparedStatement pst = con.prepareStatement(s);//调用对象con方法赋值给引用
+		pst.setString(1, userName);//将入参userName赋值给第一个参数
+		pst.setString(2, password);//将入参password赋值给第二个参数
+		ResultSet rst = pst.executeQuery();//执行sql语句
 		// 处理数据库的返回结果(使用ResultSet类)
 		while (rst.next()) {
 			System.out.println(rst.getString("user_name") + " " + rst.getString("password"));
 			return true;
-		}
-		rst.close();
-		pst.close();
-		con.close();
-		return false;
+		}//当处理结果集非空即while条件为true时，输出用户名和密码，并返回true
+		rst.close();//关闭结果集
+		pst.close();//关闭pst
+		con.close();//关闭数据库连接
+		return false;//当处理结果集为空即while条件为false时，输出用户名和密码，并返回false
 	}
 
 	public static int addUser(User u) throws ClassNotFoundException, SQLException {
